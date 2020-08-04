@@ -19,7 +19,7 @@ else:
 choice3 = 0
 if choice2.lower() == "right":
     choice3 = int(input("there are 5 doors labeled 1-5, picka one"))
-elif choice2 not == "":
+elif not choice2 == "":
     print("they ran into some guards and failed their mission.")
 
 # 3a. Note that because if they picked the sword at the start, then they would have failed and not gone into the if statement where choice2 was defined, the if statement with choice2 would throw an error because choice2 has not been defined yet. Therefore, you need to use try and except. Use it in this format:
@@ -37,23 +37,25 @@ elif choice2 not == "":
 
 # 4. If they picked any door that was not door number four, define another variable choice4 and in the input, tell them they have to choose either going down or up the stairs. Remember to use int() to check if their choice was correct. If they picked door number four, print a statement saying they walked straight into the guards' living quarters and was promptly put back in the dungeon.
 choice4 = ""
-if choice3 not == 4:
-    choice4 = input("them they have to choose either going down or up the stairs.")
-elif choice3 not == 0:
+if not choice3 == 4:
+    choice4 = input(
+        "them they have to choose either going down or up the stairs.")
+elif not choice3 == 0:
     print("they walked straight into the guards' living quarters and was promptly put back in the dungeon.")
 
 # 5. Because this is a dungeon, if they went down, they would only get further trapped, so print out a statement telling them they failed the mission. If they chose up, create a variable choice5 and in the input, tell them there are two guards waiting for them on the right corridor. Give them a choice between fighting the guards or running left.
 choice5 = ""
 if choice4.lower() == "down":
     print("a statement telling them they failed the mission.")
-elif choice4 not == "":
-    choice5 = input("there are two guards waiting for them on the right corridor.\nchoice between fighting the guards or running left.")
+elif not choice4 == "":
+    choice5 = input(
+        "there are two guards waiting for them on the right corridor.\nchoice between fighting the guards or running left.")
 
 
 # 6. Finally if they chose to fight, print out a statement describing their fight with the guards and how they managed to beat them and escape the dungeon. Congratulate them! If they chose to go run left, print out a statement telling them they ran into 5 more guards and was promptly put back into their cell, failing the mission.
 if choice5.lower() == "fight":
     print("sua luta com os guardas e como eles conseguiram vencê-los e escapar da masmorra. :D")
-elif choice5 not == "":
+elif not choice5 == "":
     print("encontraram mais 5 guardas e foram prontamente colocados de volta em sua cela, falhando na missão. D:")
 
 # 7. Congratulations! You successfully made an exciting, engaging text adventure that you can ask your friends or family members to play through and see if they can escape the dungeon. If you want to change the setting, story, or choices, feel free to be creative and add more things.
