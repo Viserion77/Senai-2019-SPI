@@ -3,7 +3,7 @@
 # Considere que a cobertura da tinta é de 1 litro para cada 3 metros quadrados e que a tinta é vendida em latas de 18 litros,
 # que custam R$ 80,00. Informe ao usuário a quantidades de latas de tinta a serem compradas e o preço total.
 def calcular_preco_quantidade_tinta(metros):
-    quantidade = metros/3
+    quantidade = metros*3
     quantidade /= 18
     if quantidade > int(quantidade):
         quantidade = int(quantidade)+1
