@@ -23,18 +23,31 @@ def exponent(a,b):
     return a**b
 
 # 4. Make another function remainder_division that takes in two numbers. The function should then return the result - not in decimal form - but with the answer and a remainder.
-def remainder_division(a,b):
-    return 
 
 # 4a. In order to create such a function, we will need to use import math. What this does is it allows us to use functions that have been made by other people so that we don't need to create them ourselves. We're going to be using the math.floor() function that rounds a number down to its ones place, getting rid of all the decimal places.
 
 # 4b. Inside your function, define a local variable answer and set it equal to the dividend divided by the divisor. Then, math.floor(answer). Define another local variable remainder and set it equal to the dividend modulo (%) the divisor.
 
 # 4c. Finally, return the answer and the remainder using string concatenation in the format "A remainder B". Don't forget to use the str() method to concatenate numbers with strings.
+import math
+def remainder_division(a,b):
+    answer=a/b
+    answer=math.floor(answer)
+    remainder=a%b
+    return answer+remainder
 
 # 5. Define our last function square_root that takes in a number and returns the square root of that number. We will need to use math.sqrt() in order to do this.
+def square_root(a):
+    return math.sqrt(a)
 
 # 6. It's time to ask the user for their input! Define a variable that takes in the user input. When taking the input, display a string such as:
+functions = {"1": add, "2": subtract, "3": multiply, "4": divide, "5" : exponent, "6": remainder_division , "7": square_root}
+
+for function in functions:
+    print(str(functions[function])+' selecione: '+str(function))
+option = input('Operação: ')
+a = float(input('numeor 1: '))
+b = float(input('numero 2: '))
 
 # What function would you like to use?
 
@@ -49,5 +62,7 @@ def remainder_division(a,b):
 # etc...
 
 # 7. Their input should be a number, so define a matching number of if statements to account for each function, checking if the input is equal to "1" or etc. Make sure the number is a string because the inputed value is automatically a string. Then, inside each if statement, define the corresponding number of local variables to how many inputs the function requires. For example, if the user chose square root, I would only define one local variable and ask for the input. If they chose exponent, I would define two local variables and set it equal to the user's inputed base and power. Call the function on the variables and print the result. Make sure when you call your function on the variables that you use the int() method because the input variables are automatically strings.
+
+print(str(functions.get(option)(a,b)))
 
 # 8. Test your program! Does it work? Ask your friends and family to test it out, and feel free to improve it and customize it!
