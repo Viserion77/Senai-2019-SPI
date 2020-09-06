@@ -6,10 +6,7 @@ main() {
   print("altura");
   text=stdin.readLineSync();
   var altura=double.parse(text);
-  print("idade");
-  text=stdin.readLineSync();
-  var idade=int.parse(text);
-  var calc=peso/(altura*idade);
+  var calc=peso/(altura*altura);
   if (calc<18.5){
     print("abaixo");
   }else if (calc>18.5&&calc<24.9) {
