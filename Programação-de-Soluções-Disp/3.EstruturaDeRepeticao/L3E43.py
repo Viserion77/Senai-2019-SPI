@@ -1,0 +1,42 @@
+# O cardápio de uma lanchonete é o seguinte:
+# Especificação   Código  Preço
+# Cachorro Quente 100     R$ 1,20
+# Bauru Simples   101     R$ 1,30
+# Bauru com ovo   102     R$ 1,50
+# Hambúrguer      103     R$ 1,20
+# Cheeseburguer   104     R$ 1,30
+# Refrigerante    105     R$ 1,00
+# Faça um programa que leia o código dos itens pedidos e as quantidades desejadas. Calcule e mostre o valor a ser pago por item (preço * quantidade) e o total geral do pedido. Considere que o cliente deve informar quando o pedido deve ser encerrado.
+
+print('Especificacao   Codigo  Preco')
+print('Cachorro Quente 100     R$ 1,20')
+print('Bauru Simples   101     R$ 1,30')
+print('Bauru com Ovo   102     R$ 1,50')
+print('Hamburger       103     R$ 1,20')
+print('Cheeseburger    104     R$ 1,30')
+print('Refrigerante    105     R$ 1,00')
+
+codigo = 100
+valorTotal = 0
+while (codigo >= 100 and codigo <= 105):
+    codigo = int(
+        input(
+            'Informe o codigo do produto ou um codigo invalido para encerrar: '
+        ))
+    if (codigo >= 100 and codigo <= 105):
+        quantidade = int(input('Informe a quantidade: '))
+        if (codigo == 100):
+            valorItem = 1.20 * quantidade
+        elif (codigo == 101):
+            valorItem = 1.30 * quantidade
+        elif (codigo == 102):
+            valorItem = 1.50 * quantidade
+        elif (codigo == 103):
+            valorItem = 1.20 * quantidade
+        elif (codigo == 104):
+            valorItem = 1.30 * quantidade
+        elif (codigo == 105):
+            valorItem = 1.0 * quantidade
+        print('Valor do item: %.2f', valorItem, valorTotal, ' += ', valorItem)
+
+print('Valor Total: %.2f', valorTotal)
