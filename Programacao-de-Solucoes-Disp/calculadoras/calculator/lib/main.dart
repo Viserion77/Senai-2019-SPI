@@ -1,122 +1,139 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(
+  MaterialApp(
+    home: Home(),
+    debugShowCheckedModeBanner: false,
+    //theme: ThemeData.dark(),
+  ),
+);
 
-class MyApp extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyAppState extends State<MyApp> {
-  GlobalKey<FormState> _key = new GlobalKey();
-  bool _validate = false;
-  String nome, email, celular;
+class _HomeState extends State<Home> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  TextEditingController _weightController = TextEditingController();
+  TextEditingController _heightController = TextEditingController();
+  String _result;
+
+  @override
+  void initState() {
+    super.initState();
+    resetFields();
+  }
+
+  void resetFields() {
+    _weightController.text = '';
+    _heightController.text = '';
+    setState(() {
+      _result = 'Informe seus dados';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Formulário com Validação'),
-        ),
-        body: new SingleChildScrollView(
-          child: new Container(
-            margin: new EdgeInsets.all(15.0),
-            child: new Form(
-              key: _key,
-              autovalidate: _validate,
-              child: _formUI(),
-            ),
-          ),
-        ),
-      ),
-    );
+    return Scaffold(
+        appBar: buildAppBar(),
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+            padding: EdgeInsets.all(20.0), child: buildForm()));
   }
 
-  Widget _formUI() {
-    return new Column(
-      children: <Widget>[
-        new TextFormField(
-          decoration: new InputDecoration(hintText: 'Nome Completo'),
-          maxLength: 40,
-          validator: _validarNome,
-          onSaved: (String val) {
-            nome = val;
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text('Calculadora de IMC'),
+      backgroundColor: Colors.blue,
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () {
+            resetFields();
           },
-        ),
-        new TextFormField(
-            decoration: new InputDecoration(hintText: 'Celular'),
-            keyboardType: TextInputType.phone,
-            maxLength: 10,
-            validator: _validarCelular,
-            onSaved: (String val) {
-              celular = val;
-            }),
-        new TextFormField(
-            decoration: new InputDecoration(hintText: 'Email'),
-            keyboardType: TextInputType.emailAddress,
-            maxLength: 40,
-            validator: _validarEmail,
-            onSaved: (String val) {
-              email = val;
-            }),
-        new SizedBox(height: 15.0),
-        new RaisedButton(
-          onPressed: _sendForm,
-          child: new Text('Enviar'),
         )
       ],
     );
   }
 
-  String _validarNome(String value) {
-    String patttern = r'(^[a-zA-Z ]*$)';
-    RegExp regExp = new RegExp(patttern);
-    if (value.length == 0) {
-      return "Informe o nome";
-    } else if (!regExp.hasMatch(value)) {
-      return "O nome deve conter caracteres de a-z ou A-Z";
-    }
-    return null;
+  Form buildForm() {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          buildTextFormField(
+              label: "Peso (kg)",
+              error: "Insira seu peso!",
+              controller: _weightController),
+          buildTextFormField(
+              label: "Altura (cm)",
+              error: "Insira uma altura!",
+              controller: _heightController),
+          buildTextResult(),
+          buildCalculateButton(),
+        ],
+      ),
+    );
   }
 
-  String _validarCelular(String value) {
-    String patttern = r'(^[0-9]*$)';
-    RegExp regExp = new RegExp(patttern);
-    if (value.length == 0) {
-      return "Informe o celular";
-    } else if(value.length != 10){
-      return "O celular deve ter 10 dígitos";
-    }else if (!regExp.hasMatch(value)) {
-      return "O número do celular so deve conter dígitos";
-    }
-    return null;
+  void calculateImc() {
+    double weight = double.parse(_weightController.text);
+    double height = double.parse(_heightController.text) / 100.0;
+    double imc = weight / (height * height);
+
+    setState(() {
+      _result = "IMC = ${imc.toStringAsPrecision(2)}\n";
+      if (imc < 18.6)
+        _result += "Abaixo do peso";
+      else if (imc < 25.0)
+        _result += "Peso ideal";
+      else if (imc < 30.0)
+        _result += "Levemente acima do peso";
+      else if (imc < 35.0)
+        _result += "Obesidade Grau I";
+      else if (imc < 40.0)
+        _result += "Obesidade Grau II";
+      else
+        _result += "Obesidade Grau IIII";
+    });
   }
 
-  String _validarEmail(String value) {
-    String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(pattern);
-    if (value.length == 0) {
-      return "Informe o Email";
-    } else if(!regExp.hasMatch(value)){
-      return "Email inválido";
-    }else {
-      return null;
-    }
+  Widget buildCalculateButton() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 36.0),
+      child: RaisedButton(
+        onPressed: () {
+          if (_formKey.currentState.validate()) {
+            calculateImc();
+          }
+        },
+        child: Text('CALCULAR', style: TextStyle(color: Colors.white)),
+      ),
+    );
   }
 
-  _sendForm() {
-    if (_key.currentState.validate()) {
-      // Sem erros na validação
-      _key.currentState.save();
-      print("Nome $nome");
-      print("Ceclular $celular");
-      print("Email $email");
-    } else {
-      // erro de validação
-      setState(() {
-        _validate = true;
-      });
-    }
+  Widget buildTextResult() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 36.0),
+      child: Text(
+        _result,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget buildTextFormField(
+      {TextEditingController controller, String error, String label}) {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(labelText: label),
+      controller: controller,
+      validator: (text) {
+        return text.isEmpty ? error : null;
+      },
+    );
   }
 }
