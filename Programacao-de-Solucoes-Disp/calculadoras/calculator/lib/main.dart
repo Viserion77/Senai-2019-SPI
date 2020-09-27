@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import './theme_changer.dart';
 
-void main() => runApp(
-  MaterialApp(
-    home: Home(),
-    debugShowCheckedModeBanner: false,
-    //theme: ThemeData.dark(),
-  ),
-);
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return ThemeBuilder(
+      defaultBrightness: Brightness.dark,
+      builder: (context, _brightness) {
+        return MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(primarySwatch: Colors.blue, brightness: _brightness),
+          home: Home(),
+        );
+      },
+    );
+  }
+}
 
 class Home extends StatefulWidget {
   @override
@@ -19,6 +31,7 @@ class _HomeState extends State<Home> {
   TextEditingController _weightController = TextEditingController();
   TextEditingController _heightController = TextEditingController();
   String _result;
+  Icon _icon;
 
   @override
   void initState() {
@@ -34,11 +47,15 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void _changeTheme() {
+    ThemeBuilder.of(context).changeTheme();
+  }
+
+  bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(),
-        backgroundColor: Colors.white,
         body: SingleChildScrollView(
             padding: EdgeInsets.all(20.0), child: buildForm()));
   }
@@ -46,8 +63,16 @@ class _HomeState extends State<Home> {
   AppBar buildAppBar() {
     return AppBar(
       title: Text('Calculadora de IMC'),
-      backgroundColor: Colors.blue,
       actions: <Widget>[
+        Switch(
+          value: isSwitched,
+          onChanged: (value) {
+            setState(() {
+              isSwitched = value;
+            });
+            _changeTheme();
+          },
+        ),
         IconButton(
           icon: Icon(Icons.refresh),
           onPressed: () {
@@ -98,6 +123,19 @@ class _HomeState extends State<Home> {
         _result += "Obesidade Grau II";
       else
         _result += "Obesidade Grau IIII";
+      _icon = Icon(Icons.face);
+      if (imc < 18.6)
+        _icon = Icon(Icons.sentiment_very_dissatisfied);
+      else if (imc < 25.0)
+        _icon = Icon(Icons.tag_faces);
+      else if (imc < 30.0)
+        _icon = Icon(Icons.insert_emoticon);
+      else if (imc < 35.0)
+        _icon = Icon(Icons.format_color_reset);
+      else if (imc < 40.0)
+        _icon = Icon(Icons.fiber_manual_record);
+      else
+        _icon = Icon(Icons.fiber_smart_record);
     });
   }
 
@@ -116,13 +154,20 @@ class _HomeState extends State<Home> {
   }
 
   Widget buildTextResult() {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 36.0),
-      child: Text(
-        _result,
-        textAlign: TextAlign.center,
-      ),
-    );
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 36.0),
+            child: Text(
+              _result,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          IconButton(
+            icon: _icon,
+          )
+        ]);
   }
 
   Widget buildTextFormField(
