@@ -1,19 +1,20 @@
 <template>
   <v-container class="section">
     <v-text-field
-    v-model="valueDoll"
-    type="number"
+      v-model="valueDoll"
+      type="number"
       label="Valor em dólares"
-    ></v-text-field>
+    />
     <v-text-field
-    v-model="cotation"
-    type="number"
+      v-model="cotation"
+      type="number"
       label="Cotação"
-    ></v-text-field>
-    <h1>Valor em reais: {{ `${valueDoll * cotation}`.split('.')[0]
-      }}.{{
-         `${`${valueDoll * cotation}`.split('.')[1] || 0}`.substr(0,2)
-          }}</h1>
+    />
+    <h1>
+      Valor em reais: {{ `${valueDoll * cotation}`.split(".")[0] }}.{{
+        `${`${valueDoll * cotation}`.split(".")[1] || 0}`.substr(0, 2)
+      }}
+    </h1>
   </v-container>
 </template>
 
@@ -24,7 +25,7 @@ export default {
   data() {
     return {
       valueDoll: 0,
-      cotation: 5.20,
+      cotation: 5.2,
     };
   },
 };

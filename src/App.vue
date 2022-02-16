@@ -1,26 +1,43 @@
 <template>
   <v-container id="app">
-    <marquee behavior="scroll" loop="true" direction="right" >
-      <img src="https://images5.alphacoders.com/403/thumb-1920-403408.jpg" style="height: 200px;">
+    <marquee behavior="scroll" loop="true" direction="right">
+      <img
+        src="https://images5.alphacoders.com/403/thumb-1920-403408.jpg"
+        style="height: 200px"
+      >
       <table>
-        <th><tr>Name</tr><tr>Email</tr></th>
-        <ts><tr>Jeferson Alves</tr><tr>jeferson_alves1@estudante.sc.senai.br</tr></ts>
+        <th>
+          <tr>
+            Name
+          </tr>
+          <tr>
+            Email
+          </tr>
+        </th>
+        <ts>
+          <tr>
+            Jeferson Alves
+          </tr>
+          <tr>
+            jeferson_alves1@estudante.sc.senai.br
+          </tr>
+        </ts>
       </table>
     </marquee>
-1)
-    <HowOldAreYou/>
+    1)
+    <HowOldAreYou />
 
-    <div class="divider"/>
-2)
-    <ValueInRealMoney/>
+    <div class="divider" />
+    2)
+    <ValueInRealMoney />
 
-    <div class="divider"/>
-3)
-    <DayOfWeek/>
+    <div class="divider" />
+    3)
+    <DayOfWeek />
 
-    <div class="divider"/>
-4)
-    <CalcResult/>
+    <div class="divider" />
+    4)
+    <CalcResult />
   </v-container>
 </template>
 

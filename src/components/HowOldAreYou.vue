@@ -1,7 +1,7 @@
 <template>
   <v-container class="section">
     <h1>Idade: {{ calculaIdade(picker) }}</h1>
-    <v-date-picker v-model="picker" dark></v-date-picker>
+    <v-date-picker v-model="picker" dark />
   </v-container>
 </template>
 
@@ -11,11 +11,9 @@ export default {
 
   data() {
     return {
-      picker: (
-        new Date(
-          Date.now() - (new Date()).getTimezoneOffset() * 60000,
-        )
-      ).toISOString().substr(0, 10),
+      picker: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
     };
   },
 
@@ -32,9 +30,7 @@ export default {
       if (mesAtual < mesNasc) {
         idade -= 1;
       } else if (Number(mesAtual) === Number(mesNasc)) {
-        if (new Date().getDate() < diaNasc) {
-          idade -= 1;
-        }
+        if (new Date().getDate() < diaNasc) { idade -= 1; }
       }
 
       return idade;
