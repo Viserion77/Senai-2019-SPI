@@ -1,5 +1,5 @@
-// const redis = require('promise-redis');
-const client = {set(){},get(){}}//redis.createClient();
+const redis = require('promise-redis');
+const client = redis.createClient();
 
 const setCache = async (service, key, value, cacheTime = 60) => {
     if (typeof value !== 'string')
