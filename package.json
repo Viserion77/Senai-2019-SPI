@@ -18,6 +18,6 @@
   "homepage": "https://github.com/Viserion77/Senai-2019-SPI#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "promise-redis": "0.0.5"
+    "net": "^1.0.2"
   }
 }
