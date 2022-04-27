@@ -1,39 +1,57 @@
 const { createConnection } = require('net')
-const host = 'redis-16182.c11.us-east-1-3.ec2.cloud.redislabs.com'
-const port = 16182
-const user = 'default'
-const password = 'orO0noPT0zfOPBcxhyf2IYRIAdbwm5bp'
 
-const setCache = async (service, key, value) => {
-    await new Promise((res, rej) => {
-        if (typeof value !== 'string')
-            rej('Value should be a string!')
-
-        const socket = createConnection({ host, port, })
-        socket.once('connect', () => {
-            socket.write('+' + JSON.stringify({ [`${service}:${key}`]: value }), res)
-            socket.destroy();
+const createRedisConnection = () => {
+    return new Promise((resolve, reject) => {
+        const connection = createConnection({
+        host: 'localhost',
+        port: 6379
         })
-        res(false)
-    })
-}
-setCache('1', '2', '3')
-
-const getCache = async (service, key) => {
-    await new Promise((res, rej) => {
-        const socket = createConnection({ host, port, })
-        socket.once('connect', () => {
-            socket.on('data', (data) => {
-                res(JSON.parse(data[`${service}:${key}`]))
-                socket.destroy();
-            });
+        connection.on('connect', () => {
+            resolve(connection)
         })
-        res()
+        connection.on('error', reject)
     })
 }
 
-getCache('1', '2')
+const setValue = (connection, key, value) => {
+    return new Promise((resolve, reject) => {
+        connection.write(`SET ${key} ${value}\r\n`, (error) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(value)
+            }
+        })
+    })
+}
+
+const getValue = (connection, key) => {
+    return new Promise((resolve, reject) => {
+        connection.write(`GET ${key}\r\n`, (error) => {
+            if (error) {
+                reject(error)
+            } else {
+                resolve(value)
+            }
+        })
+    })
+}
+
+const setCache = async (key, value) => {
+    const connection = await createRedisConnection()
+    const result = await setValue(connection, key, value)
+    connection.end()
+    return result
+}
+
+const getCache = async (key) => {
+    const connection = await createRedisConnection()
+    const result = await getValue(connection, key)
+    connection.end()
+    return result
+}
+
 module.exports = {
     setCache,
     getCache
-};
+}
